@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UnidadesCentroService } from './unidades-centro.service';
 
 @Component({
   selector: 'app-unidades-centro',
@@ -7,23 +6,10 @@ import { UnidadesCentroService } from './unidades-centro.service';
   styleUrls: ['./unidades-centro.component.scss']
 })
 export class UnidadesCentroComponent implements OnInit {
-  unidades: any[] = [];
 
-  constructor(private unidadesService: UnidadesCentroService) {}
+  constructor() { }
 
-  ngOnInit() {
-    this.getUnidades();
+  ngOnInit(): void {
   }
 
-  getUnidades() {
-    this.unidadesService.getUnidadesCentro().subscribe(data => {
-      this.unidades = data;
-    });
-  }
-
-  eliminarUnidad(id: number) {
-    this.unidadesService.deleteUnidadCentro(id).subscribe(() => {
-      this.getUnidades();
-    });
-  }
 }
