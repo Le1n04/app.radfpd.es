@@ -15,7 +15,7 @@ import { EntidadesService } from '../services/entidades.service';
 // import { EditUnidadComponent } from './edit-unidad/edit-unidad.component';
 // import { DeleteUnidadComponent } from './delete-unidad/delete-unidad.component';
 
-import { SelectionModel } from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections'; 
 
 @Component({
   selector: 'app-unidades',

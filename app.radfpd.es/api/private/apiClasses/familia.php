@@ -32,58 +32,58 @@ class Familia extends Conexion implements crud {
     public function create($data) {
         $familia = $data['familia'];
         $observaciones = $data['observaciones'];
-        $cod_familia = $data['cod_familia'];
+		$codFamilia = $data['cod_familia'];
 
-        if (isset($familia, $cod_familia)) {
+        if (isset($familia)) {
             $sql = $this->conexion->prepare("INSERT INTO sgi_familias (familia, observaciones, cod_familia)
-                    VALUES (:familia, :observaciones, :cod_familia)");
+                    VALUES (:familia, :observaciones, :codFamilia)");
             $sql->bindParam(":familia", $familia, PDO::PARAM_STR);
             $sql->bindParam(":observaciones", $observaciones, PDO::PARAM_STR);
-            $sql->bindParam(":cod_familia", $cod_familia, PDO::PARAM_STR);
+			$sql->bindParam(":codFamilia", $codFamilia, PDO::PARAM_STR);
 
             $resultado = $sql->execute();
             if ($resultado) {
                 $this->status = true;
-                $this->message = "Familia creada correctamente";
-            } else {
-                $this->message = "Error al crear la familia";
-            }
+                $this->message = ADD_MODO_REUNION_OK;
+            } else {$this->message = ADD_MODO_REUNION_KO;}
 
             $this->closeConnection();
         }
     }
-
 
     public function update($data) {
-        $idFamilia = $data['id_familia'];
-        $familia = $data['familia'];
-        $observaciones = $data['observaciones'];
-        $cod_familia = $data['cod_familia'];
-    
-        if (isset($familia, $cod_familia)) {
-            $sql = $this->conexion->prepare("UPDATE sgi_familias SET
-                    familia = :familia,
-                    observaciones = :observaciones,
-                    cod_familia = :cod_familia
-                    WHERE id_familia = :idFamilia");
-            
-            $sql->bindParam(":familia", $familia, PDO::PARAM_STR);
-            $sql->bindParam(":observaciones", $observaciones, PDO::PARAM_STR);
-            $sql->bindParam(":cod_familia", $cod_familia, PDO::PARAM_STR);
-            $sql->bindParam(":idFamilia", $idFamilia, PDO::PARAM_INT);
-    
-            $resultado = $sql->execute();
-            if ($resultado) {
-                $this->status = true;
-                $this->message = "Familia actualizada correctamente";
-            } else {
-                $this->message = "Error al actualizar la familia";
-            }
-    
-            $this->closeConnection();
-        }
-    }
-    
+		$idFamilia = $data['id_familia'];
+		$familia = $data['familia'];
+		$observaciones = $data['observaciones'];
+		$codFamilia = $data['cod_familia'];
+		
+		# Esto inserta NULL a observaciones si se encuentra vacío
+		if ($observaciones == "")
+			$observaciones = NULL;
+		if (isset($familia)) {
+			$sql = $this->conexion->prepare("UPDATE sgi_familias SET
+					familia = :familia,
+					observaciones = :observaciones,
+					cod_familia = :codFamilia
+					WHERE id_familia = :idFamilia");
+			
+			$sql->bindParam(":familia", $familia, PDO::PARAM_STR);
+			$sql->bindParam(":observaciones", $observaciones, PDO::PARAM_STR);
+			$sql->bindParam(":codFamilia", $codFamilia, PDO::PARAM_STR);
+			$sql->bindParam(":idFamilia", $idFamilia, PDO::PARAM_INT);
+	
+			$resultado = $sql->execute();
+			if ($resultado) {
+				$this->status = true;
+				$this->message = EDIT_MODO_REUNION_OK;
+			} else {
+				$this->message = EDIT_MODO_REUNION_KO;
+			}
+	
+			$this->closeConnection();
+		}
+	}
+	
 
     public function delete($idFamilia) {
         if (isset($idFamilia)) {

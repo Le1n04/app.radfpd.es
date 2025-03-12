@@ -6,6 +6,7 @@ import { FamiliasService } from 'src/app/services/familias.service';
 import { Familia } from 'src/app/shared/interfaces/familia';
 import { CLOSE, ENTIDAD_FAMILIA, ERROR } from '../../shared/messages';
 
+
 @Component({
   selector: 'app-edit-familia',
   templateUrl: './edit-familia.component.html',
@@ -29,7 +30,7 @@ export class EditFamiliaComponent implements OnInit {
       id_familia: new FormControl(this.familia.id_familia, Validators.required),
       familia: new FormControl(this.familia.familia, Validators.required),
       observaciones: new FormControl(this.familia.observaciones),
-      cod_familia: new FormControl(this.familia.cod_familia, Validators.required) // Agregamos el campo aquí
+	  cod_familia: new FormControl(this.familia.cod_familia)
     });
   }
 

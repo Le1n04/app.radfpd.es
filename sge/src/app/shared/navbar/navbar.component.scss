@@ -5,7 +5,7 @@
   font-size: medium;
   display: flex;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  color: #556269;
+  color: #000000;
 }
 
 .herramientas img {
@@ -21,7 +21,7 @@
 .vistaactual {
   position: absolute;;
   // width: 500px;
-  color: #000000;
+  color: #303030;
   // vertical-align: middle !important;
   // padding: 20px;
   // margin: auto;
@@ -87,7 +87,7 @@ ul {
 }
 
 div#navbarNavDropdown a {
-  color: black;
+  color: #303030;
 }
 
 .dropdown-item:active {
@@ -144,6 +144,8 @@ li.nav-item.dropdown.lipermenu {
 
 .opcionesNav {
   border: 0px solid !important;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    font-size: small;
 }
 
 .opcionesNav.ayuda {

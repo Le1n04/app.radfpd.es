@@ -23,7 +23,7 @@ const routes: Routes = [
     path: 'unidades', 
     loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule),
     outlet: 'sidebar' 
-  },];
+  }];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -13,19 +13,19 @@ import { CLOSE, INVALID_FORM, ENTIDAD_FAMILIA } from '../../shared/messages';
 })
 export class AddFamiliaComponent implements OnInit {
   familiaForm: FormGroup;
+
   ENTIDAD: String;
 
-  constructor(
-    public dialogRef: MatDialogRef<AddFamiliaComponent>,
+  constructor(public dialogRef: MatDialogRef<AddFamiliaComponent>,
     private snackBar: MatSnackBar,
     private servicioFamilias: FamiliasService
-  ) {}
+  ){ }
 
   ngOnInit(): void {
     this.familiaForm = new FormGroup({
       familia: new FormControl(null, Validators.required),
       observaciones: new FormControl(null),
-      cod_familia: new FormControl(null, Validators.required) // Agregamos el campo aquí
+	  cod_familia: new FormControl(null),
     });
     this.ENTIDAD = ENTIDAD_FAMILIA;
   }
@@ -37,7 +37,7 @@ export class AddFamiliaComponent implements OnInit {
       const RESPONSE = await this.servicioFamilias.addFamilia(familia).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
+        this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
       } else {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
       }
@@ -47,6 +47,6 @@ export class AddFamiliaComponent implements OnInit {
   }
 
   onNoClick() {
-    this.dialogRef.close({ ok: false });
-  }
+    this.dialogRef.close({ok: false});
+  }  
 }

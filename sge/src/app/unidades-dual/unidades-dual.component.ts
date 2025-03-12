@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { UnidadesDualService } from '../services/unidades-dual.service';
+import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { Overlay } from '@angular/cdk/overlay';
+import { FormControl } from '@angular/forms';
+import { Permises } from '../shared/interfaces/api-response';
+import { combineLatest } from 'rxjs';
+import { startWith } from 'rxjs/operators';
+
+import { UnidadDual } from '../shared/interfaces/unidad-dual';
+import { UnidadesDualService } from '../services/unidades-dual.service';
+
+import { AddUnidadDualComponent } from './add-unidad-dual/add-unidad-dual.component';
 import { EditUnidadDualComponent } from './edit-unidad-dual/edit-unidad-dual.component';
+import { DeleteUnidadDualComponent } from './delete-unidad-dual/delete-unidad-dual.component';
 
 @Component({
   selector: 'app-unidades-dual',
@@ -11,72 +22,113 @@ import { EditUnidadDualComponent } from './edit-unidad-dual/edit-unidad-dual.com
   styleUrls: ['./unidades-dual.component.scss']
 })
 export class UnidadesDualComponent implements OnInit {
-  displayedColumns: string[] = ['id_unidad_dual', 'unidad_dual', 'observaciones', 'actions'];
-  dataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  dataSource: MatTableDataSource<UnidadDual> = new MatTableDataSource();
 
   idUnidadDualFilter = new FormControl();
   unidadDualFilter = new FormControl();
   observacionesFilter = new FormControl();
 
-  constructor(private unidadesDualService: UnidadesDualService, private dialog: MatDialog) {}
+  permises: Permises;
+
+  displayedColumns: string[];
+  private filterValues = { id_unidad_dual: '', unidad_dual: '' , observaciones: ''};
+
+  constructor(
+    public dialog: MatDialog,
+    private unidadesDualService: UnidadesDualService,
+    private overlay: Overlay
+  ) { }
 
   ngOnInit(): void {
-    this.loadData();
-
-    this.idUnidadDualFilter.valueChanges.subscribe(value => {
-      this.applyFilter('id_unidad_dual', value);
-    });
-
-    this.unidadDualFilter.valueChanges.subscribe(value => {
-      this.applyFilter('unidad_dual', value);
-    });
-
-    this.observacionesFilter.valueChanges.subscribe(value => {
-      this.applyFilter('observaciones', value);
-    });
+    this.getUnidadesDual();
+    //this.unidadesDualService.ENTIDAD = "test";
   }
 
-  loadData(): void {
-    this.unidadesDualService.getAllUnidadesDual().subscribe(response => {
-      this.dataSource.data = response.data;
-    });
+  
+  async getUnidadesDual() {
+    const RESPONSE = await this.unidadesDualService.getAllUnidadesDual().toPromise();
+    this.permises = RESPONSE.permises;
+
+    if (RESPONSE.ok) {
+      this.unidadesDualService.unidadDual = RESPONSE.data as UnidadDual[];
+      this.displayedColumns = ['id_unidad_dual', 'unidad_dual', 'observaciones', 'actions'];
+      this.dataSource.data = this.unidadesDualService.unidadDual;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.filterPredicate = this.createFilter();
+      this.onChanges();
+    }  
   }
 
-  applyFilter(column: string, value: string): void {
-    this.dataSource.filterPredicate = (data, filter) => {
-      const textToSearch = data[column] ? data[column].toLowerCase() : '';
-      return textToSearch.includes(filter);
-    };
-    this.dataSource.filter = value.trim().toLowerCase();
-  }
-
-  editUnidadDual(unidadDual: any): void {
-    const dialogRef = this.dialog.open(EditUnidadDualComponent, {
-      width: '400px',
-      data: { ...unidadDual }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.unidadesDualService.editUnidadDual(result).subscribe(response => {
-          const updatedUnit = response.data;
-          this.dataSource.data = this.dataSource.data.map(item => 
-            item.id_unidad_dual === updatedUnit.id_unidad_dual ? updatedUnit : item
-          );
-          this.dataSource._updateChangeSubscription();
-          console.log('Unidad dual actualizada');
-        });
+  async addUnidadDual() {
+    const dialogRef = this.dialog.open(AddUnidadDualComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        //this.unidadesDualService.unidadDual.push(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
+        this.ngOnInit();
       }
-    });
+    }  
   }
 
-  deleteUnidadDual(unidadDual: any): void {
-    if (confirm('¿Estás seguro de eliminar esta unidad dual?')) {
-      this.unidadesDualService.deleteUnidadDual(unidadDual.id_unidad_dual).subscribe(() => {
-        this.dataSource.data = this.dataSource.data.filter(item => item.id_unidad_dual !== unidadDual.id_unidad_dual);
-        this.dataSource._updateChangeSubscription();
-        console.log('Unidad dual eliminada');
-      });
+  async editUnidadDual(unidadDual: UnidadDual) {
+    const dialogRef = this.dialog.open(EditUnidadDualComponent, { data: unidadDual, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        //this.unidadesDualService.editUnidadDual(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
+        this.ngOnInit();
+      }
+    }  
+  }
+
+  async deleteUnidadDual(unidadDual: UnidadDual) {
+    const dialogRef = this.dialog.open(DeleteUnidadDualComponent, { data: unidadDual, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        //this.unidadesDualService.deleteUnidadDual(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
+        this.ngOnInit();
+      }
     }
+  }
+
+  createFilter(): (unidadDual: UnidadDual, filter: string) => boolean {
+    const filterFunction = (unidadDual: UnidadDual, filter: string): boolean => {
+      const searchTerms = JSON.parse(filter);
+
+      return unidadDual.id_unidad_dual.toString().indexOf(searchTerms.id_unidad_dual) !== -1
+        && unidadDual.unidad_dual.toLowerCase().indexOf(searchTerms.unidad_dual.toLowerCase()) !== -1
+        && unidadDual.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
+    };
+
+    return filterFunction;
+  }
+
+  onChanges() {
+      this.idUnidadDualFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.id_unidad_dual = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      }); 
+  
+      this.unidadDualFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.unidad_dual = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
+
+      this.observacionesFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.observaciones = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      }); 
   }
 }

@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
 
   loginForm: FormGroup;
-  titulo = 'Acceso CRM RADFPD';
+  titulo = 'Acceso CRM AEROKEEPER';
   alerta: string;
   showSpinner: boolean;
   error: string;

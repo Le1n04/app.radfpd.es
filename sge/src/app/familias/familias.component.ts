@@ -47,7 +47,7 @@ export class FamiliasComponent implements OnInit {
     this.getFamilias();
   }
 
-  
+
   async getFamilias() {
     const RESPONSE = await this.familiasService.getAllFamilias().toPromise();
     this.permises = RESPONSE.permises;
@@ -60,7 +60,7 @@ export class FamiliasComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
       this.onChanges();
-    }  
+    }
   }
 
   async addFamilia() {
@@ -72,19 +72,19 @@ export class FamiliasComponent implements OnInit {
         //this.dataSource.data = this.familiasService.familia;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async editFamilia(familia: Familia) {
     const dialogRef = this.dialog.open(EditFamiliaComponent, { data: familia, scrollStrategy: this.overlay.scrollStrategies.noop() });
-    const RESULT = await dialogRef.afterClosed().toPromise();
+    const RESULT = await dialogRef.afterClosed().toPromise(); 
     if (RESULT) {
       if (RESULT.ok) {
         //this.familiasService.editFamilia(RESULT.data);
         //this.dataSource.data = this.familiasService.familia;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async deleteFamilia(familia: Familia) {
@@ -104,7 +104,8 @@ export class FamiliasComponent implements OnInit {
       const searchTerms = JSON.parse(filter);
 
       return familia.id_familia.toString().indexOf(searchTerms.id_familia) !== -1
-        && familia.familia.toLowerCase().indexOf(searchTerms.familia.toLowerCase()) !== -1;
+        && familia.familia.toLowerCase().indexOf(searchTerms.familia.toLowerCase()) !== -1
+        && familia.cod_familia.toString().indexOf(searchTerms.cod_familia.toLowerCase()) !== -1;
     };
 
     return filterFunction;
@@ -112,17 +113,16 @@ export class FamiliasComponent implements OnInit {
 
   onChanges() {
     this.idFamiliaFilter.valueChanges
-    .subscribe(value => {
+      .subscribe(value => {
         this.filterValues.id_familia = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+      });
 
     this.familiaFilter.valueChanges
-    .subscribe(value => {
+      .subscribe(value => {
         this.filterValues.familia = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
+      });
     this.codFamiliaFilter.valueChanges
       .subscribe(value => {
         this.filterValues.cod_familia = value;

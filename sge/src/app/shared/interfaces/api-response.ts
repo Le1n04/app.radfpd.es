@@ -1,4 +1,5 @@
 export interface ApiResponse {
+	[x: string]: any;
     ok: boolean;
     message?: string;
     data?: any;

@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   menu: any;
   username: string;
-  user_public: string;
   grupo: string;
   vista: string;
   href: string;
@@ -22,8 +21,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.username = localStorage.getItem('usuario');
-    this.user_public = localStorage.getItem('nombre_publico');
+    this.username = localStorage.getItem('nombre_publico');
     this.grupo = localStorage.getItem('ultimoGrupo');
     this.vista = localStorage.getItem('ultimaOpcion');
   }

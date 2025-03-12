@@ -46,7 +46,7 @@ export class UnidadesComponent implements OnInit {
     private unidadesService: UnidadesService,
     private overlay: Overlay,
 
-    public entidadService: EntidadesService
+    public entidadService: EntidadesService 
   ) { }
 
   ngOnInit(): void {

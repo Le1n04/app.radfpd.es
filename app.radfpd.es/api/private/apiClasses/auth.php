@@ -217,6 +217,7 @@ class Auth extends Conexion  {
         try {
             $sql = $this->conexion->prepare("SELECT usuario FROM sgi_usuarios WHERE usuario = :username");
             $sql->bindParam(":username", $username, PDO::PARAM_STR);
+    
             $sql->execute();
             $this->user_email = $sql->fetch(PDO::FETCH_ASSOC)['usuario'];
         } catch(PDOException $error) {
@@ -225,21 +226,6 @@ class Auth extends Conexion  {
         }
         // $this->closeConnection();
     }
-
-    private function getUserPublic($username) {
-        try {
-            $sql = $this->conexion->prepare("SELECT nombre_publico FROM sgi_usuarios WHERE usuario = :username");
-            $sql->bindParam(":username", $username, PDO::PARAM_STR);
-            $sql->execute();
-    
-            $this->user_public = $sql->fetch(PDO::FETCH_ASSOC)['nombre_publico'];
-        } catch(PDOException $error) {
-            //$this->conexion->generateLog(2, $error, $usuario);
-            $this->message = 'error';
-        }
-        // $this->closeConnection();
-    }
-    
 
     private function checkTokenPasswordIsValid($token_passwd) {
         $response = false;

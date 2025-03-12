@@ -19,7 +19,7 @@ export class UnidadesService {
 
   get() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
-  }
+  } 
 
   getUnidades(idEntidad: number) {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=${idEntidad}`, { headers: this.commonService.headers });
