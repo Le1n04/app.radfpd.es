@@ -9,13 +9,15 @@ import { AddUnidadCentroComponent } from './add-unidad-centro/add-unidad-centro.
 import { DeleteUnidadCentroComponent } from './delete-unidad-centro/delete-unidad-centro.component';
 import { EditUnidadCentroComponent } from './edit-unidad-centro/edit-unidad-centro.component';
 
+import { DatosUnidadCentroModule } from './datos-unidad-centro/datos-unidad-centro.module';
 
 @NgModule({
   declarations: [UnidadesCentroComponent, AddUnidadCentroComponent, DeleteUnidadCentroComponent, EditUnidadCentroComponent],
   imports: [
     CommonModule,
     UnidadesCentroRoutingModule,
-    CrudMaterialModule
+    CrudMaterialModule,
+	  DatosUnidadCentroModule,
   ]
 })
 export class UnidadesCentroModule { }

@@ -66,6 +66,7 @@ export class EditUnidadCentroComponent implements OnInit {
   async getCiclos(){
     const RESPONSE = await this.servicioCiclos.getAllCiclos().toPromise();
     if (RESPONSE.ok){
+		console.log("OK");
       this.ciclos = RESPONSE.data as Ciclo[];
     }
   }
