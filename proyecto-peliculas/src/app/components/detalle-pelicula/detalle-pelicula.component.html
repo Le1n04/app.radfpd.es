@@ -1,0 +1,14 @@
+<div *ngIf="pelicula" class="detalle-pelicula">
+    <img [src]="'https://image.tmdb.org/t/p/w500' + pelicula.poster_path" alt="{{ pelicula.title }}" />
+    <div class="info">
+      <h1>{{ pelicula.title }}</h1>
+      <p><strong>Fecha de estreno:</strong> {{ pelicula.release_date | date }}</p>
+      <p><strong>Duración:</strong> {{ pelicula.runtime }} minutos</p>
+      <p><strong>Género:</strong> {{ getGeneros() }}</p>
+      <p><strong>Descripción:</strong> {{ pelicula.overview }}</p>
+      <button (click)="guardarFavorito()" class="btn-favorito">
+        Añadir a favoritos
+      </button>      
+    </div>
+  </div>
+  

@@ -1,0 +1,32 @@
+.peliculas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  
+    .pelicula {
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+      text-align: center;
+  
+      img {
+        width: 100%;
+        border-radius: 8px;
+      }
+  
+      h3 {
+        margin: 10px 0 5px;
+        font-size: 1rem;
+      }
+  
+      p {
+        font-size: 0.9rem;
+        color: gray;
+      }
+  
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  

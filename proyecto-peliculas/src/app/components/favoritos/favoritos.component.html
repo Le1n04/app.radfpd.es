@@ -1,0 +1,8 @@
+<div class="favoritos-container">
+    <div class="favorito" *ngFor="let favorito of favoritos">
+      <h3>{{ favorito.titulo }}</h3>
+      <p>{{ favorito.release_date || 'Fecha desconocida' }}</p>
+      <button (click)="eliminarFavorito(favorito.id)">Eliminar</button>
+    </div>
+  </div>
+  

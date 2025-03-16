@@ -17,10 +17,6 @@ export class DatosBasicosUnidadCentroComponent implements OnInit {
 	unidadCentroForm: FormGroup;
 	unidadCentro: UnidadCentro;
 	ciclos: Ciclo[];
-	//zonas: Zona[];
-	//tipos_entidad: TipoEntidad[];
-	//provincias: Provincia[];
-	//contactos: Contacto[];
 
 	ENTIDAD: String;
 
@@ -29,14 +25,7 @@ export class DatosBasicosUnidadCentroComponent implements OnInit {
 		private unidadCentroService: UnidadesCentroService,
 		private servicioCiclos: CiclosService
 
-	) {
-		this.ciclos = this.datosUnidadCentro.datosEditarUnidadCentro.ciclos;
-
-		//this.zonas = this.datosUnidadCentro.datosEditarUnidadCentro.zonas;
-		//this.tipos_entidad = this.datosEntidad.datosEditarEntidad.tiposEntidad;
-		//this.provincias = this.datosEntidad.datosEditarEntidad.provincias;
-		//this.contactos = this.datosEntidad.datosEditarEntidad.contactos;
-	}
+	) {this.ciclos = this.datosUnidadCentro.datosEditarUnidadCentro.ciclos;}
 
 	ngOnInit(): void {
 		this.ENTIDAD = ENTIDAD_UNIDAD_CENTRO;

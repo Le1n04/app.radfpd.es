@@ -5,3 +5,4 @@ export interface DatosEditarUnidadCentro {
     unidadCentro: UnidadCentro;
     ciclos: Ciclo[];
 }
+    
