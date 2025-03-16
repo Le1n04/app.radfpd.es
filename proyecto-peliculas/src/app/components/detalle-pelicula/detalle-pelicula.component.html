@@ -1,14 +1,31 @@
 <div *ngIf="pelicula" class="detalle-pelicula">
-    <img [src]="'https://image.tmdb.org/t/p/w500' + pelicula.poster_path" alt="{{ pelicula.title }}" />
-    <div class="info">
-      <h1>{{ pelicula.title }}</h1>
-      <p><strong>Fecha de estreno:</strong> {{ pelicula.release_date | date }}</p>
-      <p><strong>Duración:</strong> {{ pelicula.runtime }} minutos</p>
-      <p><strong>Género:</strong> {{ getGeneros() }}</p>
-      <p><strong>Descripción:</strong> {{ pelicula.overview }}</p>
-      <button (click)="guardarFavorito()" class="btn-favorito">
-        Añadir a favoritos
-      </button>      
+  <img [src]="'https://image.tmdb.org/t/p/w500' + pelicula.poster_path" alt="{{ pelicula.title }}" />
+  <div class="info">
+    <h1>{{ pelicula.title }}</h1>
+    <p><strong>Fecha de estreno:</strong> {{ pelicula.release_date | date }}</p>
+    <p><strong>Duración:</strong> {{ pelicula.runtime }} minutos</p>
+    <p><strong>Género:</strong> {{ getGeneros() }}</p>
+    <p><strong>Descripción:</strong> {{ pelicula.overview }}</p>
+    <button (click)="guardarFavorito()" class="btn-favorito">
+      Añadir a favoritos
+    </button>
+  </div>
+</div>
+
+<div *ngIf="similares.length > 0" class="similares-container">
+  <h2>Películas similares</h2>
+  <div class="similares-list">
+    <div 
+      class="similares-item" 
+      *ngFor="let similar of similares"
+      (click)="verDetalle(similar.id)"
+    >
+      <img 
+        [src]="similar.poster_path ? 'https://image.tmdb.org/t/p/w500' + similar.poster_path : 'assets/img/default-movie.png'" 
+        alt="{{ similar.title }}" 
+        (error)="onImageError($event)"
+      />
+      <p>{{ similar.title }}</p>
     </div>
   </div>
-  
+</div>

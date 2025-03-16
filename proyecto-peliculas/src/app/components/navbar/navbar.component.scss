@@ -1,42 +1,116 @@
 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 16px;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+  
+
+  .nav-left {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    gap: 12px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    img {
+      height: 50px;
+      width: auto;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .material-icons {
     color: white;
-    padding: 10px 20px;
-  
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      margin-right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #d8ff00;
+    }
+  }
+
+  .mat-menu-item {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+
+    &:hover {
+      background-color: rgba(255, 77, 77, 0.1);
+    }
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    background-color: #2c2c2c;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #444;
+    width: 400px;
+
+    input {
+      border: none;
+      padding: 12px 16px;
       font-size: 16px;
-  
-      &.active {
-        font-weight: bold;
-        border-bottom: 2px solid #ff4d4d;
+      outline: none;
+      width: 100%;
+      color: #ffffff;
+      background-color: #2c2c2c;
+
+      &::placeholder {
+        color: #888;
       }
     }
-  
-    .nav-search input {
-      padding: 5px;
+
+    .search-button {
+      background-color: transparent;
       border: none;
-      border-radius: 4px;
-      width: 200px;
-    }
-  
-    .nav-login button {
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
+      padding: 10px;
       cursor: pointer;
-      transition: background 0.2s ease;
-  
+
+      .material-icons {
+        color: #888;
+        font-size: 24px;
+        transition: color 0.2s ease;
+      }
+
       &:hover {
-        background-color: #e03c3c;
+        background-color: #444;
+
+        .material-icons {
+          color: #d8ff00;
+        }
       }
     }
   }
-  
+
+  .nav-login button {
+    margin-right: 32px;
+    background-color: #d8ff00;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: #d8ff00;
+    }
+  }
+}

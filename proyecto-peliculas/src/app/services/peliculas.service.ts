@@ -11,11 +11,20 @@ export class PeliculasService {
 
   constructor(private http: HttpClient) {}
 
-  getPopulares(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}&language=es-ES&page=1`);
+  getPopulares(page: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}&language=es-ES&page=${page}`);
+  }
+
+  buscarPeliculas(query: string, page: number = 1): Observable<any> {
+    return this.http.get(`${this.apiUrl}/search/movie?api_key=${this.apiKey}&language=es-ES&query=${query}&page=${page}`);
   }
 
   getDetalle(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/${id}?api_key=${this.apiKey}&language=es-ES`);
   }
+
+  getSimilares(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}/similar?api_key=${this.apiKey}&language=es-ES`);
+  }
+  
 }

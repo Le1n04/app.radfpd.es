@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,15 +7,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  @Output() searchEvent = new EventEmitter<string>();
-
   searchText = '';
 
-  onSearch(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim();
+  constructor(private searchService: SearchService) {}
+
+  onSearchClick(): void {
+    const value = this.searchText.trim();
     if (value) {
-      this.searchEvent.emit(value);
+      this.searchService.setSearchTerm(value);
     }
   }
-    
 }

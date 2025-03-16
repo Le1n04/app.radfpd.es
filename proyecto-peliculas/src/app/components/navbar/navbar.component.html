@@ -1,15 +1,35 @@
 <nav class="navbar">
-    <div class="nav-links">
-      <a routerLink="/" routerLinkActive="active">Inicio</a>
-      <a routerLink="/favoritos" routerLinkActive="active">Favoritos</a>
-    </div>
-  
-    <div class="nav-search">
-      <input type="text" [(ngModel)]="searchText" (input)="onSearch($event)" placeholder="Buscar películas...">
-    </div>
-  
-    <div class="nav-login">
-      <button>Iniciar sesión</button>
-    </div>
-  </nav>
-  
+  <!-- Grupo de logo + menú -->
+  <div class="nav-left">
+    <a routerLink="/" class="logo">
+      <img src="assets/img/logo.png" alt="Logo" />
+    </a>
+
+    <button mat-button [matMenuTriggerFor]="menu">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/">Inicio</button>
+    <button mat-menu-item routerLink="/favoritos">Favoritos</button>
+  </mat-menu>
+
+  <!-- Barra de búsqueda -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (keydown.enter)="onSearchClick()"
+      placeholder="Buscar películas..."
+    />
+    <button class="search-button" (click)="onSearchClick()">
+      <span class="material-icons">search</span>
+    </button>
+  </div>
+
+  <!-- Botón de login -->
+  <div class="nav-login">
+    <button>Iniciar sesión</button>
+  </div>
+</nav>

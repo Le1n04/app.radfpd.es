@@ -1,8 +1,11 @@
 <div class="peliculas-container">
-    <div class="pelicula" *ngFor="let pelicula of peliculas" (click)="verDetalle(pelicula.id)">
-      <img [src]="'https://image.tmdb.org/t/p/w500' + pelicula.poster_path" alt="{{ pelicula.title }}" />
-      <h3>{{ pelicula.title }}</h3>
-      <p>{{ pelicula.release_date | date }}</p>
-    </div>
+  <div class="pelicula" *ngFor="let pelicula of peliculas" (click)="verDetalle(pelicula.id)">
+    <img 
+      [src]="pelicula.poster_path ? 'https://image.tmdb.org/t/p/w500' + pelicula.poster_path : 'assets/img/default-movie.png'" 
+      alt="{{ pelicula.title }}"
+      (error)="onImageError($event)"
+    />
+    <h3>{{ pelicula.title }}</h3>
+    <p>{{ pelicula.release_date | date }}</p>
   </div>
-  
+</div>
