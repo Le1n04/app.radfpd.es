@@ -23,17 +23,17 @@ export class ListadoPeliculasComponent implements OnInit {
       pelicula.title.toLowerCase().includes(searchText.toLowerCase())
     );
   }
-  
 
   ngOnInit(): void {
     this.peliculasService.getPopulares().subscribe({
       next: (data) => {
         this.peliculas = data.results;
-        console.log(this.peliculas);
+        this.peliculasOriginal = [...data.results];
       },
       error: (error) => {
         console.error('Error al obtener películas:', error);
       }
     });
   }
+  
 }

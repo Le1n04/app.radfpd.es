@@ -18,8 +18,11 @@ export class DetallePeliculaComponent implements OnInit {
   ) {}
 
   getGeneros(): string {
-    return this.pelicula?.genres.map((g: any) => g.name).join(', ') || 'Sin género';
+    return this.pelicula?.genres?.length 
+      ? this.pelicula.genres.map((g: any) => g.name).join(', ') 
+      : 'Sin género';
   }
+  
 
   guardarFavorito(): void {
     if (this.pelicula) {

@@ -18,13 +18,12 @@ export class FavoritosComponent implements OnInit {
   getFavoritos(): void {
     this.favoritosService.getFavoritos().subscribe({
       next: (res) => {
-        this.favoritos = res.data;
-        console.log('Favoritos cargados:', this.favoritos);
+        this.favoritos = res as any[];
       },
       error: (err) => {
         console.error('Error al obtener favoritos:', err);
       }
-    });
+    });    
   }
 
   eliminarFavorito(id: number): void {

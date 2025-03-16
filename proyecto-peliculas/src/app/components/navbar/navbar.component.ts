@@ -11,7 +11,10 @@ export class NavbarComponent {
   searchText = '';
 
   onSearch(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.searchEvent.emit(value);
+    const value = (event.target as HTMLInputElement).value.trim();
+    if (value) {
+      this.searchEvent.emit(value);
+    }
   }
+    
 }
