@@ -11,11 +11,11 @@
   </div>
 
   <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/">Inicio</button>
-    <button mat-menu-item routerLink="/favoritos">Favoritos</button>
+    <button mat-menu-item routerLink="/" *ngIf="isLoggedIn">Inicio</button>
+    <button mat-menu-item routerLink="/favoritos" *ngIf="isLoggedIn">Favoritos</button>
   </mat-menu>
+  
 
-  <!-- Barra de búsqueda -->
   <div class="search-container">
     <input
       type="text"
@@ -28,8 +28,9 @@
     </button>
   </div>
 
-  <!-- Botón de login -->
   <div class="nav-login">
-    <button (click)="iniciarSesion()">Iniciar sesión</button>
+    <span *ngIf="isLoggedIn && userName" class="user-name">Bienvenido, {{ userName }} </span>
+    <button *ngIf="isLoggedIn" (click)="cerrarSesion()">Cerrar sesión</button>
+    <button *ngIf="!isLoggedIn" (click)="iniciarSesion()">Iniciar sesión</button>
   </div>
 </nav>

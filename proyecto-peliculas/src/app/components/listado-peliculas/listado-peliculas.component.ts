@@ -90,7 +90,6 @@ export class ListadoPeliculasComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // ✅ Esta función fuerza la carga directa sin pasar por el observer
   cargarPeliculasForzada(page: number): void {
     if (this.loading || this.currentPage > this.totalPages) return;
 
