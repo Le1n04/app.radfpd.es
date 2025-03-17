@@ -44,18 +44,17 @@ class Auth extends Conexion  {
     }
 
     public function doLogin($user, $password) {
-        //$log = new log();
-        $this->getDatosUsuarios($user, $password);
-        if($this->datos_usuarios["usuario"] == $user and $user){
-
-            if ($this->datos_usuarios["habilitado"] == 1) {
-                try{
-                    $random = rand(1000000, 9999999);
     
+        $this->getDatosUsuarios($user, $password);
+    
+        if (!empty($this->datos_usuarios)) {
+            if ($this->datos_usuarios["habilitado"] == 1) {
+                try {
+                    $random = rand(1000000, 9999999);
                     $token_user = $this->datos_usuarios["id_usuario"].$this->datos_usuarios["usuario"].$random;
                     $authorization = new Authorization();
                     $authorization->encryptToken($token_user, self::SEED);
-            
+                    
                     $sql = $this->conexion->prepare("UPDATE sgi_usuarios SET token_sesion = :token_sesion WHERE id_usuario = :id_usuario");
                     $sql->bindParam(":token_sesion", $authorization->token_encrypt);
                     $sql->bindParam(":id_usuario", $this->datos_usuarios["id_usuario"]);
@@ -71,28 +70,24 @@ class Auth extends Conexion  {
                         "nombre_publico" =>  $this->datos_usuarios["nombre_publico"],
                         "opcion" =>  $this->opcion,
                         "grupo" =>  $this->grupo,
-                        "accion" =>  $this->accion
-                     ];
-                    //$log->generateLog(1, "login con éxito",$user);
+                        "accion" =>  $this->accion,
+                        "valido" => 1,
+                    ];
                 } catch(PDOException $error) {
-                    //$this->conexion->generateLog(2, $error, $usuario);
                     $this->message = 'error';
                 }
-
             } else {
-                //$log->generateLog(1, "intento de login de usuario inhabilitado", $user);
                 $this->data["valido"] = 0;
             }
-        
-        }else{
-            //$log->generateLog( 1, "login fallido", $user);
-            $this->data["valido"] = 1;
+        } else {
+            $this->data["valido"] = 0;
         }
+    
         $this->status = true;
-        
         $this->closeConnection();
-
     }
+    
+    
 
     public function recoverPassword($data) {
 
@@ -179,23 +174,25 @@ class Auth extends Conexion  {
     }
 
     private function getDatosUsuarios($user, $password) {
-
         $password = md5($password);
+    
         try { 
             $sql = $this->conexion->prepare("SELECT *,(SELECT COUNT(id_rol) AS checked  FROM `sgi_rol_menu` WHERE `id_rol` =  U.id_rol ) AS checked
-            FROM `sgi_usuarios` U inner join sgi_roles using(id_rol) WHERE usuario = :user AND pass_user = :pass");
-    
+                FROM `sgi_usuarios` U inner join sgi_roles using(id_rol) 
+                WHERE usuario = :user AND pass_user = :pass");
+        
             $sql->bindParam(":user", $user);
             $sql->bindParam(":pass", $password);
-    
+        
             $sql->execute();
-            $this->datos_usuarios = $sql->fetch(PDO::FETCH_ASSOC);
+    
+            $this->datos_usuarios = $sql->fetch(PDO::FETCH_ASSOC) ?: [];
+    
         } catch(PDOException $error) {
-            //$this->conexion->generateLog(2, $error, $usuario);
             $this->message = 'error';
         }
-        // $this->closeConnection();
     }
+    
 
     private function getOpcionGrupoAccion() {
         try {

@@ -1,0 +1,34 @@
+<div class="login-container">
+    <h2>Iniciar sesión</h2>
+  
+    <form (ngSubmit)="onSubmit()">
+      <input 
+        type="email" 
+        [(ngModel)]="email" 
+        name="email"
+        placeholder="Correo electrónico" 
+        required
+        (input)="onEmailChange()" 
+        [ngClass]="{'invalid': emailInvalid && email !== ''}"
+      />
+      <div *ngIf="emailInvalid && email !== ''" class="error-message">
+        El formato del email es inválido.
+      </div>
+  
+      <input 
+        *ngIf="showPassword" 
+        type="password" 
+        [(ngModel)]="password" 
+        name="password"
+        placeholder="Contraseña" 
+        required 
+      />
+  
+      <button type="submit" [disabled]="!showPassword">Entrar</button>
+  
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+  

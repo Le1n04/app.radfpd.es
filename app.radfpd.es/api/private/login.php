@@ -9,7 +9,7 @@ $request = json_decode(file_get_contents('php://input'), true);
 
 $auth = new Auth();
 
-$auth->doLogin($request['username'], $request['password']);
+$auth->doLogin($request['email'], $request['password']);
 
 $api_utils->response($auth->status, $auth->message, $auth->data);
 

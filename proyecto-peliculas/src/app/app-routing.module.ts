@@ -4,12 +4,14 @@ import { ListadoPeliculasComponent } from './components/listado-peliculas/listad
 import { DetallePeliculaComponent } from './components/detalle-pelicula/detalle-pelicula.component';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
   { path: '', component: ListadoPeliculasComponent },
   { path: 'detalle/:id', component: DetallePeliculaComponent },
   { path: 'favoritos', component: FavoritosComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
