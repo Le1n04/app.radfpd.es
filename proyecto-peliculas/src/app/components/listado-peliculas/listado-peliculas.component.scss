@@ -1,19 +1,18 @@
-// Tema oscuro general
 .peliculas-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 16px;
   padding: 16px;
-  background-color: #121212; // Fondo oscuro para el contenedor
-  min-height: 100vh;
+  background-color: #121212;
+  min-height: 100vh; // ✅ Esto asegura que el contenedor tenga espacio suficiente para el scroll
 }
 
 .pelicula {
-  background-color: #1e1e1e; // Fondo oscuro para las tarjetas
+  background-color: #1e1e1e;
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 
   &:hover {
@@ -30,34 +29,23 @@
 
   h3 {
     font-size: 16px;
-    color: #ffffff; // Texto blanco
+    color: #ffffff;
     margin: 12px;
-    font-weight: bold;
   }
 
   p {
     font-size: 14px;
-    color: #bbbbbb; // Texto gris claro
+    color: #bbbbbb;
     margin: 0 12px 12px;
   }
 }
 
-// Estado de carga y mensaje de error
-.loading {
-  text-align: center;
-  font-size: 18px;
-  color: #d8ff00;
-  padding: 20px;
+.sentinel {
+  height: 20px;
+  background-color: transparent;
 }
 
-.no-results {
-  text-align: center;
-  font-size: 18px;
-  padding: 20px;
-  color: #999;
-}
 
-// Para que el scroll también tenga un tono oscuro
 ::-webkit-scrollbar {
   width: 8px;
 }
