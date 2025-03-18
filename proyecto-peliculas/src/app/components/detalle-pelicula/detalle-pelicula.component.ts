@@ -11,6 +11,7 @@ import { FavoritosService } from 'src/app/services/favoritos.service';
 export class DetallePeliculaComponent implements OnInit {
   pelicula: any;
   similares: any[] = [];
+  estaEnFavoritos: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,23 +32,42 @@ export class DetallePeliculaComponent implements OnInit {
   }
 
   guardarFavorito(): void {
-    const userId = 61;
-
-    if (this.pelicula) {
+    const userId = Number(localStorage.getItem('id_usuario')?.substring(1, 3));
+    if (userId) {
       this.favoritosService
-        .addFavorito(userId, this.pelicula.title , this.pelicula.poster_path, this.pelicula.release_date)
+        .addFavorito(userId, this.pelicula.title, this.pelicula.poster_path, this.pelicula.release_date)
         .subscribe({
-          next: (res) => {
-            console.log('Película añadida a favoritos:', res);
-            alert('Película añadida a favoritos!');
+          next: () => {
+            console.log('Película añadida a favoritos');
+            this.estaEnFavoritos = true; // ✅ Actualiza el estado
           },
           error: (err) => {
-            console.error('Error al añadir favorito:', err);
+            console.error('Error al añadir a favoritos:', err);
             alert('Error al añadir la película a favoritos.');
           }
         });
     }
   }
+
+  eliminarFavorito(): void {
+    const userId = Number(localStorage.getItem('id_usuario')?.substring(1, 3));
+    if (userId) {
+      this.favoritosService
+        .deleteFavorito(userId, this.pelicula.title)
+        .subscribe({
+          next: () => {
+            console.log('Película eliminada de favoritos');
+            this.estaEnFavoritos = false; // ✅ Actualiza el estado
+          },
+          error: (err) => {
+            console.error('Error al eliminar de favoritos:', err);
+            alert('Error al eliminar la película de favoritos.');
+          }
+        });
+    }
+  }
+
+  
 
   cargarSimilares(id: number): void {
     this.peliculasService.getSimilares(id).subscribe({
@@ -59,6 +79,22 @@ export class DetallePeliculaComponent implements OnInit {
         console.error('Error al obtener películas similares:', error);
       }
     });
+  }
+
+  comprobarSiEstaEnFavoritos(): void {
+    const userId = Number(localStorage.getItem('id_usuario')?.substring(1, 3));
+    if (userId && this.pelicula) {
+      this.favoritosService.getFavoritos(userId).subscribe({
+        next: (res) => {
+          this.estaEnFavoritos = res.data?.some(
+            (fav: any) => fav.titulo === this.pelicula.title
+          );
+        },
+        error: (err) => {
+          console.error('Error al comprobar favoritos:', err);
+        }
+      });
+    }
   }
 
   verDetalle(id: number): void {
@@ -73,7 +109,7 @@ export class DetallePeliculaComponent implements OnInit {
       next: (data) => {
         this.pelicula = data;
         console.log(this.pelicula);
-        this.cargarSimilares(id);
+        this.comprobarSiEstaEnFavoritos();
       },
       error: (error) => {
         console.error('Error al obtener el detalle:', error);

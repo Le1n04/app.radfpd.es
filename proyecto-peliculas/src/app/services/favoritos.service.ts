@@ -47,9 +47,21 @@ export class FavoritosService {
 
     return this.http.post(this.baseUrl, body, { headers });
   }
-  deleteFavorito(idPelicula: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}?id=${idPelicula}`, { headers: this.commonService.headers }).pipe(
-      tap(res => console.log('Película eliminada de favoritos:', res))
-    );
+  
+  deleteFavorito(userId: number, titulo: string): Observable<any> {
+    const token = localStorage.getItem('token');
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  
+    const body = {
+      user_id: userId,
+      titulo: titulo
+    };
+  
+    return this.http.request('DELETE', this.baseUrl, { body, headers });
   }
+  
 }
