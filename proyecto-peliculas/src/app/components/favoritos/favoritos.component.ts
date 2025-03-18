@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FavoritosService } from 'src/app/services/favoritos.service';
+import { FavoritosService } from '../../services/favoritos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favoritos',
@@ -9,32 +10,38 @@ import { FavoritosService } from 'src/app/services/favoritos.service';
 export class FavoritosComponent implements OnInit {
   favoritos: any[] = [];
 
-  constructor(private favoritosService: FavoritosService) {}
+  constructor(private favoritosService: FavoritosService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getFavoritos();
+    this.obtenerFavoritos();
   }
 
-  getFavoritos(): void {
-    this.favoritosService.getFavoritos().subscribe({
-      next: (res) => {
-        this.favoritos = res as any[];
-      },
-      error: (err) => {
-        console.error('Error al obtener favoritos:', err);
-      }
-    });    
+  obtenerFavoritos() {
+    let userData = localStorage.getItem('id_usuario');
+    let len = userData?.length;
+  
+    if (userData && len) {
+      userData = userData.substring(1, len - 1);
+      const userId = Number(userData);
+      console.log('ID de usuario:', userId);
+  
+      this.favoritosService.getFavoritos(userId).subscribe({
+        next: (res) => {
+          console.log('Favoritos cargados:', res);
+          this.favoritos = res.data || [];
+        },
+        error: (err) => {
+          console.error('Error al cargar favoritos:', err);
+          alert('Error al cargar favoritos.');
+        },
+      });
+    } else {
+      console.error('No se encontró información de usuario en localStorage.');
+    }
+  }  
+
+  onImageError(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/img/default-movie.png';
   }
 
-  eliminarFavorito(id: number): void {
-    this.favoritosService.deleteFavorito(id).subscribe({
-      next: () => {
-        console.log('Favorito eliminado');
-        this.getFavoritos();
-      },
-      error: (err) => {
-        console.error('Error al eliminar favorito:', err);
-      }
-    });
-  }
 }

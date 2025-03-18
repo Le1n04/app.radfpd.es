@@ -43,12 +43,13 @@ export class LoginComponent {
           if (response.data?.token) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('usuario', JSON.stringify(response.data));
+            localStorage.setItem('id_usuario', JSON.stringify(response.data.id_usuario));
             this.authService.setAuthenticated(true);
           }
 
           console.log('Login correcto');
           this.router.navigate(['']).then(() => {
-            window.location.reload(); // ✅ Recarga para actualizar estado
+            window.location.reload();
           });
         } else {
           this.errorMessage = 'Credenciales incorrectas.';

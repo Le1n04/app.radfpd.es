@@ -31,15 +31,21 @@ export class DetallePeliculaComponent implements OnInit {
   }
 
   guardarFavorito(): void {
+    const userId = 61;
+
     if (this.pelicula) {
-      this.favoritosService.addFavorito(this.pelicula).subscribe({
-        next: () => {
-          console.log('Película añadida a favoritos');
-        },
-        error: (error) => {
-          console.error('Error al añadir a favoritos:', error);
-        }
-      });
+      this.favoritosService
+        .addFavorito(userId, this.pelicula.title , this.pelicula.poster_path, this.pelicula.release_date)
+        .subscribe({
+          next: (res) => {
+            console.log('Película añadida a favoritos:', res);
+            alert('Película añadida a favoritos!');
+          },
+          error: (err) => {
+            console.error('Error al añadir favorito:', err);
+            alert('Error al añadir la película a favoritos.');
+          }
+        });
     }
   }
 

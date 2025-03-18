@@ -1,8 +1,18 @@
-<div class="favoritos-container">
-    <div class="favorito" *ngFor="let favorito of favoritos">
+<div class="favoritos-wrapper">
+  <h2 class="titulo-favoritos">Mis Favoritos</h2>
+
+  <div class="favoritos-container">
+    <div
+      class="favorito"
+      *ngFor="let favorito of favoritos"
+    >
+      <img
+        [src]="favorito.poster_path ? 'https://image.tmdb.org/t/p/w500' + favorito.poster_path : 'assets/img/default-movie.png'"
+        alt="{{ favorito.titulo }}"
+        (error)="onImageError($event)"
+      />
       <h3>{{ favorito.titulo }}</h3>
-      <p>{{ favorito.release_date || 'Fecha desconocida' }}</p>
-      <button (click)="eliminarFavorito(favorito.id)">Eliminar</button>
+      <p>{{ favorito.release_date | date }}</p>
     </div>
   </div>
-  
+</div>

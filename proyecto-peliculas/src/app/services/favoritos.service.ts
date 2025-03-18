@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { URL_API } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonService } from './common.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -18,19 +17,36 @@ export class FavoritosService {
     console.log('Base URL:', this.baseUrl);
   }
 
-  getFavoritos(): Observable<any> {
-    return this.http.get(this.baseUrl, { headers: this.commonService.headers }).pipe(
-      tap(res => console.log('Favoritos recibidos:', res))
-    );
+  getFavoritos(userId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.baseUrl}?user_id=${userId}`, { headers });
   }
 
-  addFavorito(pelicula: any): Observable<any> {
-    const body = JSON.stringify(pelicula);
-    return this.http.post(this.baseUrl, body, { headers: this.commonService.headers }).pipe(
-      tap(res => console.log('Película añadida a favoritos:', res))
-    );
-  }
+  addFavorito(userId: number, titulo: string, posterPath: string, releaseDate: string): Observable<any> {
+    const token = localStorage.getItem('token');
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+
+    const body = {
+      user_id: userId,
+      titulo: titulo,
+      poster_path: posterPath,
+      release_date: releaseDate,
+    };
+
+    console.log("userId", userId, "Titulo", titulo, "posterPath", posterPath, "releaseDate", releaseDate);
+
+    return this.http.post(this.baseUrl, body, { headers });
+  }
   deleteFavorito(idPelicula: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}?id=${idPelicula}`, { headers: this.commonService.headers }).pipe(
       tap(res => console.log('Película eliminada de favoritos:', res))

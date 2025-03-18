@@ -43,8 +43,15 @@ export class NavbarComponent implements OnInit {
 
   onSearchClick(): void {
     const value = this.searchText.trim();
+  
     if (value) {
-      this.searchService.setSearchTerm(value);
+      if (this.router.url !== '/') {
+        this.router.navigate(['/']).then(() => {
+          this.searchService.setSearchTerm(value);
+        });
+      } else {
+        this.searchService.setSearchTerm(value);
+      }
     }
   }
 
