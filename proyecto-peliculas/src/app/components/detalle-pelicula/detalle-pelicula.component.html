@@ -19,10 +19,16 @@
 <div *ngIf="similares.length > 0" class="similares-container">
   <h2>Películas similares</h2>
   <div class="similares-list">
-    <div class="similares-item" *ngFor="let similar of similares" (click)="verDetalle(similar.id)">
-      <img
-        [src]="similar.poster_path ? 'https://image.tmdb.org/t/p/w500' + similar.poster_path : 'assets/img/default-movie.png'"
-        alt="{{ similar.title }}" (error)="onImageError($event)" />
+    <div 
+      class="similares-item" 
+      *ngFor="let similar of similares"
+      (click)="verDetalle(similar.id)"
+    >
+      <img 
+        [src]="similar.poster_path ? 'https://image.tmdb.org/t/p/w500' + similar.poster_path : 'assets/img/default-movie.png'" 
+        alt="{{ similar.title }}" 
+        (error)="onImageError($event)"
+      />
       <p>{{ similar.title }}</p>
     </div>
   </div>

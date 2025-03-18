@@ -63,6 +63,7 @@ class Auth extends Conexion  {
                     $this->getOpcionGrupoAccion();
     
                     $this->data = [
+                        "id_usuario" => $this->datos_usuarios["id_usuario"],
                         "usuario" =>  $this->datos_usuarios["usuario"],
                         "id_rol" =>  $this->datos_usuarios["id_rol"],
                         "rol" =>  $this->datos_usuarios["rol"],

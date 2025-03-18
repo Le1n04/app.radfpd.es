@@ -24,7 +24,9 @@ export class PeliculasService {
   }
 
   getSimilares(id: number): Observable<any> {
+    console.log('📌 Obteniendo similares para id:', id);
     return this.http.get(`${this.apiUrl}/movie/${id}/similar?api_key=${this.apiKey}&language=es-ES`);
   }
+  
   
 }
