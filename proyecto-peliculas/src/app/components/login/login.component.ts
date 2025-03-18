@@ -47,7 +47,7 @@ export class LoginComponent {
           }
 
           console.log('Login correcto');
-          this.router.navigate(['/buscar']).then(() => {
+          this.router.navigate(['']).then(() => {
             window.location.reload(); // ✅ Recarga para actualizar estado
           });
         } else {

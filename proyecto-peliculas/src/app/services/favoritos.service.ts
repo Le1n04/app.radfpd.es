@@ -12,7 +12,7 @@ const ENDPOINT = 'favoritos';
 })
 export class FavoritosService {
 
-  private baseUrl = `${URL_API}/${ENDPOINT}`;
+  private baseUrl = `http://143.47.52.177/api/private/favoritos.php`;
 
   constructor(private http: HttpClient, private commonService: CommonService) {
     console.log('Base URL:', this.baseUrl);

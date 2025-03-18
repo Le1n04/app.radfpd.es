@@ -5,13 +5,14 @@ import { DetallePeliculaComponent } from './components/detalle-pelicula/detalle-
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  { path: '', component: ListadoPeliculasComponent },
-  { path: 'detalle/:id', component: DetallePeliculaComponent },
-  { path: 'favoritos', component: FavoritosComponent },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '', component: ListadoPeliculasComponent, canActivate: [AuthGuard]},
+  { path: 'detalle/:id', component: DetallePeliculaComponent, canActivate: [AuthGuard]},
+  { path: 'favoritos', component: FavoritosComponent, canActivate: [AuthGuard]},
+  { path: '**', component: PageNotFoundComponent,},
 ];
 
 @NgModule({

@@ -13,7 +13,6 @@ export class AuthService {
   public isAuthenticated$ = this.isAuthenticated.asObservable();
 
   constructor(private http: HttpClient) {
-    // ✅ Lee el token desde localStorage al arrancar la app
     const token = localStorage.getItem('token');
     if (token) {
       this.isAuthenticated.next(true);
@@ -30,7 +29,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           this.isAuthenticated.next(true);
         } else {
-          this.logout(); // ❌ Si el token no es válido → Cerramos sesión
+          this.logout();
         }
       })      
     );
