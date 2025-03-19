@@ -37,17 +37,15 @@ export class LoginComponent {
   if (this.email && this.password) {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response);
-
         if (response.data?.valido === 1) {
           if (response.data?.token) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('usuario', JSON.stringify(response.data));
             localStorage.setItem('id_usuario', JSON.stringify(response.data.id_usuario));
+            localStorage.setItem('id_rol', response.id_rol);
             this.authService.setAuthenticated(true);
           }
 
-          console.log('Login correcto');
           this.router.navigate(['']).then(() => {
             window.location.reload();
           });

@@ -13,9 +13,7 @@ export class FavoritosService {
 
   private baseUrl = `http://143.47.52.177/api/private/favoritos.php`;
 
-  constructor(private http: HttpClient, private commonService: CommonService) {
-    console.log('Base URL:', this.baseUrl);
-  }
+  constructor(private http: HttpClient, private commonService: CommonService) {}
 
   getFavoritos(userId: number): Observable<any> {
     const token = localStorage.getItem('token');
@@ -43,8 +41,6 @@ export class FavoritosService {
       release_date: releaseDate,
     };
 
-    console.log("userId", userId, "Titulo", titulo, "posterPath", posterPath, "releaseDate", releaseDate);
-
     return this.http.post(this.baseUrl, body, { headers });
   }
   
@@ -61,6 +57,22 @@ export class FavoritosService {
       titulo: titulo
     };
   
+    return this.http.request('DELETE', this.baseUrl, { body, headers });
+  }
+
+  deleteFavoritoPorId(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  
+    const body = {
+      user_id: Number(localStorage.getItem('id_usuario')?.substring(1, 3)),
+      id: id
+    };
+
     return this.http.request('DELETE', this.baseUrl, { body, headers });
   }
   

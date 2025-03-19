@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', component: ListadoPeliculasComponent, canActivate: [AuthGuard]},
   { path: 'detalle/:id', component: DetallePeliculaComponent, canActivate: [AuthGuard]},
   { path: 'favoritos', component: FavoritosComponent, canActivate: [AuthGuard]},
+  { path: 'usuarios', loadChildren: () => import('./components/usuarios/usuarios.module').then(m => m.UsuariosModule), canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent,},
 ];
 

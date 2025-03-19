@@ -48,6 +48,12 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  isAdmin(): boolean {
+    const idRol = localStorage.getItem('id_rol');
+    return idRol !== null && idRol !== '2';
+  }
+  
+
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }

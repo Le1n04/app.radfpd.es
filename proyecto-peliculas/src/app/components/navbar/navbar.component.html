@@ -12,6 +12,7 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/" *ngIf="isLoggedIn">Inicio</button>
     <button mat-menu-item routerLink="/favoritos" *ngIf="isLoggedIn">Favoritos</button>
+    <button mat-menu-item routerLink="/usuarios" *ngIf="isLoggedIn && isAdmin">Usuarios</button>
   </mat-menu>
   
 

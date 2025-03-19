@@ -14,6 +14,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { LoginComponent } from './components/login/login.component';
     FavoritosComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +35,7 @@ import { LoginComponent } from './components/login/login.component';
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
