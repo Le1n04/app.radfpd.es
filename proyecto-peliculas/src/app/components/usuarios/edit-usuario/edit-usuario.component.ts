@@ -31,7 +31,6 @@ export class EditUsuarioComponent implements OnInit {
     this.getRoles();
   }
 
-  // ✅ Inicializar el formulario correctamente
   initForm(): void {
     this.usuarioForm = new FormGroup({
       id_usuario: new FormControl(this.usuario.id_usuario, [Validators.required]),
@@ -44,7 +43,6 @@ export class EditUsuarioComponent implements OnInit {
     });
   }
 
-  // ✅ Manejo de errores en la obtención de roles
   async getRoles(): Promise<void> {
     try {
       const RESPONSE = await this.servicioRoles.getAllRoles().toPromise();
@@ -59,7 +57,6 @@ export class EditUsuarioComponent implements OnInit {
     }
   }
 
-  // ✅ Método para editar usuario con mejor control de errores
   async confirmAdd(): Promise<void> {
     if (this.usuarioForm.invalid) {
       this.showSnackbar(INVALID_FORM);
@@ -72,10 +69,10 @@ export class EditUsuarioComponent implements OnInit {
       const RESP = await this.servicioUsuario.editUsuario(usuario).toPromise();
 
       if (RESP?.ok) {
-        this.showSnackbar(RESP.message ?? 'Usuario actualizado correctamente'); // ✅ Usa ?? para valor por defecto
+        this.showSnackbar(RESP.message ?? 'Usuario actualizado correctamente');
         this.dialogRef.close({ ok: true, data: RESP.data });
       } else {
-        this.showSnackbar(RESP?.message ?? ERROR); // ✅ Usa ?? para mensaje predeterminado
+        this.showSnackbar(RESP?.message ?? ERROR);
       }
     } catch (error) {
       console.error('Error al editar usuario:', error);
@@ -83,12 +80,10 @@ export class EditUsuarioComponent implements OnInit {
     }
   }
 
-  // ✅ Método reutilizable para mostrar mensajes
   private showSnackbar(message: string | undefined): void {
     this.snackBar.open(message ?? ERROR, CLOSE, { duration: 5000 });
   }
 
-  // ✅ Método para cancelar y cerrar el diálogo
   onNoClick(): void {
     this.dialogRef.close({ ok: false });
   }

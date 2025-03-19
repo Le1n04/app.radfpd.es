@@ -23,11 +23,9 @@ export class FavoritosComponent implements OnInit {
     if (userData && len) {
       userData = userData.substring(1, len - 1);
       const userId = Number(userData);
-      console.log('ID de usuario:', userId);
   
       this.favoritosService.getFavoritos(userId).subscribe({
         next: (res) => {
-          console.log('Favoritos cargados:', res);
           this.favoritos = res.data || [];
         },
         error: (err) => {

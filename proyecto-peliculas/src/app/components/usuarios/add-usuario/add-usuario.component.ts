@@ -38,7 +38,6 @@ export class AddUsuarioComponent implements OnInit {
     });
   }
 
-  // ✅ Manejo de errores al obtener roles
   async getRoles(): Promise<void> {
     try {
       const RESPONSE = await this.servicioRoles.getAllRoles().toPromise();
@@ -53,7 +52,6 @@ export class AddUsuarioComponent implements OnInit {
     }
   }
 
-  // ✅ Método para agregar usuario con mejor control de errores
   async confirmAdd(): Promise<void> {
     if (this.usuarioForm.invalid) {
       this.showSnackbar(INVALID_FORM);
@@ -76,12 +74,10 @@ export class AddUsuarioComponent implements OnInit {
     }
   }
 
-  // ✅ Método reutilizable para mostrar mensajes de SnackBar
   private showSnackbar(message: string): void {
     this.snackBar.open(message, CLOSE, { duration: 5000 });
   }
 
-  // ✅ Método para cancelar y cerrar el diálogo
   onNoClick(): void {
     this.dialogRef.close({ ok: false });
   }

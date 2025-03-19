@@ -37,12 +37,10 @@ export class DeleteUsuarioComponent implements OnInit {
     }
   }
 
-  // ✅ Método reutilizable para mostrar mensajes
   private showSnackbar(message: string | undefined): void {
     this.snackBar.open(message ?? ERROR, CLOSE, { duration: 5000 });
   }
 
-  // ✅ Método para cancelar y cerrar el diálogo
   onNoClick(): void {
     this.dialogRef.close({ ok: false });
   }
